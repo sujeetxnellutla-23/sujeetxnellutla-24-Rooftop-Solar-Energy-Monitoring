@@ -1,1 +1,34 @@
 
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        SolarPanel panel = new SolarPanel("Rooftop Panel 1");
+        EnergyMonitor monitor = new EnergyMonitor();
+
+        System.out.println("====================================");
+        System.out.println(" ROOFTOP SOLAR ENERGY MONITORING");
+        System.out.println("====================================");
+        System.out.println("Mode: Simulation\n");
+
+        List<SolarPanel.Reading> readings =
+                panel.getDemoReadings();
+
+        for (SolarPanel.Reading reading : readings) {
+            monitor.recordReading(reading);
+
+            System.out.println(reading);
+            System.out.printf("Power: %.2f W%n",
+                    reading.getPower());
+            System.out.printf("Energy: %.4f kWh%n",
+                    monitor.getEnergyKWh());
+            System.out.println("Status: "
+                    + monitor.getStatus(reading));
+            System.out.println("------------------------------------");
+        }
+
+        System.out.printf("Total Energy: %.4f kWh%n",
+                monitor.getEnergyKWh());
+    }
+}
+
