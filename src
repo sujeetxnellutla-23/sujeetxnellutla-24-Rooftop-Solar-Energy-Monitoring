@@ -1,0 +1,91 @@
+
+import java.util.Scanner;
+
+class SolarPanel {
+    private double capacity;
+    private double efficiency;
+
+    public SolarPanel(double capacity, double efficiency) {
+        this.capacity = capacity;
+        this.efficiency = efficiency;
+    }
+
+    public double generateEnergy(double sunlightHours) {
+        return capacity * sunlightHours * efficiency;
+    }
+}
+
+class EnergyMonitor {
+    private double energyGenerated;
+    private double energyConsumed;
+    private double electricityRate;
+
+    public EnergyMonitor(double generated, double consumed,
+                         double rate) {
+        energyGenerated = generated;
+        energyConsumed = consumed;
+        electricityRate = rate;
+    }
+
+    public void displayReport() {
+        double balance = energyGenerated - energyConsumed;
+        double savings = energyGenerated * electricityRate;
+
+        System.out.println("\n--- Energy Monitoring Report ---");
+        System.out.printf("Energy Generated: %.2f kWh%n",
+                          energyGenerated);
+        System.out.printf("Energy Consumed: %.2f kWh%n",
+                          energyConsumed);
+
+        if (balance > 0) {
+            System.out.printf("Surplus Energy: %.2f kWh%n",
+                              balance);
+        } else if (balance < 0) {
+            System.out.printf("Extra Energy Required: %.2f kWh%n",
+                              -balance);
+        } else {
+            System.out.println(
+                "Energy generated equals consumption.");
+        }
+
+        System.out.printf("Estimated Daily Savings: Rs. %.2f%n",
+                          savings);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println(
+            "ROOFTOP SOLAR ENERGY MONITORING SYSTEM");
+
+        System.out.print("Enter solar panel capacity (kW): ");
+        double capacity = sc.nextDouble();
+
+        System.out.print("Enter sunlight hours: ");
+        double hours = sc.nextDouble();
+
+        System.out.print("Enter panel efficiency (0 to 1): ");
+        double efficiency = sc.nextDouble();
+
+        System.out.print(
+            "Enter household consumption (kWh): ");
+        double consumption = sc.nextDouble();
+
+        System.out.print(
+            "Enter electricity rate (Rs./kWh): ");
+        double rate = sc.nextDouble();
+
+        SolarPanel panel = new SolarPanel(capacity, efficiency);
+
+        double generated = panel.generateEnergy(hours);
+
+        EnergyMonitor monitor =
+            new EnergyMonitor(generated, consumption, rate);
+
+        monitor.displayReport();
+
+        sc.close();
+    }
+}
